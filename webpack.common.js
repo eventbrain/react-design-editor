@@ -53,12 +53,7 @@ module.exports = {
 			},
 			{
 				test: /\.(ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-				loader: 'url-loader',
-				options: {
-					publicPath: './',
-					name: 'fonts/[hash].[ext]',
-					limit: 10000,
-				},
+				type: 'asset/resource',
 			},
 			{
 				test: /\.(js|jsx|tsx|ts)?$/,
@@ -78,14 +73,9 @@ module.exports = {
 				},
 			},
 		},
-		noEmitOnErrors: true,
+		emitOnErrors: true,
 	},
 	resolve: {
 		extensions: ['.ts', '.tsx', '.js', 'jsx'],
-	},
-	node: {
-		net: 'empty',
-		fs: 'empty',
-		tls: 'empty',
 	},
 };
