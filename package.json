@@ -116,7 +116,7 @@
 		"less": "^2.7.3",
 		"less-loader": "^5.0.0",
 		"path": "^0.12.7",
-		"serve": "^11.3.0",
+		"serve": "^13.0.2",
 		"style-loader": "^1.1.4",
 		"terser-webpack-plugin": "^4.2.3",
 		"tslint": "^6.1.1",
