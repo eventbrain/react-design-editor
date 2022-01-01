@@ -113,7 +113,7 @@
 		"fs-extra": "^9.0.0",
 		"gh-pages": "^2.2.0",
 		"html-webpack-plugin": "^5.5.0",
-		"less": "^2.7.3",
+		"less": "^3.13.1",
 		"less-loader": "^5.0.0",
 		"path": "^0.12.7",
 		"serve": "^13.0.2",
