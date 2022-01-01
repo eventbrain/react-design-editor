@@ -4,12 +4,6 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 const pkg = require('./package.json');
 
-const plugins = [
-	// 로더들에게 옵션을 넣어주는 플러그인
-	new webpack.LoaderOptionsPlugin({
-		minimize: true,
-	}),
-];
 module.exports = {
 	mode: 'production',
 	entry: {
@@ -32,9 +26,10 @@ module.exports = {
 		rules: [
 			{
 				test: /\.(js|jsx|tsx|ts)$/,
-				loader: 'babel-loader?cacheDirectory',
+				loader: 'babel-loader',
 				include: path.resolve(__dirname, 'src'),
 				options: {
+					cacheDirectory: true,
 					presets: [
 						[
 							'@babel/preset-env',
@@ -72,16 +67,18 @@ module.exports = {
 			},
 			{
 				test: /\.(css|less)$/,
-				use: ['style-loader', 'css-loader', 'less-loader'],
+				use: [
+					'style-loader',
+					'css-loader',
+					{
+						loader: 'less-loader',
+						options: { javascriptEnabled: true },
+					},
+				],
 			},
 			{
 				test: /\.(ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-				loader: 'url-loader',
-				options: {
-					publicPath: './',
-					name: 'fonts/[hash].[ext]',
-					limit: 10000,
-				},
+				type: 'asset/resource',
 			},
 		],
 	},
@@ -89,24 +86,17 @@ module.exports = {
 		extensions: ['.ts', '.tsx', '.js', 'jsx'],
 	},
 	optimization: {
+		minimize: true,
 		minimizer: [
 			new TerserPlugin({
-				include: /\.min\.js$/,
-				cache: true,
 				parallel: true,
-				sourceMap: false,
 				terserOptions: {
 					warnings: false,
-					compress: {
-						warnings: false,
-						unused: true, // tree shaking(export된 모듈 중 사용하지 않는 모듈은 포함하지않음)
-					},
+					compress: {},
 					ecma: 6,
 					mangle: true,
-					unused: true,
 				},
 			}),
 		],
 	},
-	plugins,
 };
