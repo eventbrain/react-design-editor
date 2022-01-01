@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const baseConfig = require('./webpack.common.js');
@@ -22,17 +22,13 @@ module.exports = merge(baseConfig, {
 	output: {
 		path: path.resolve(__dirname, 'public'),
 		publicPath: '/',
-		filename: '[name].[hash:16].js',
-		chunkFilename: '[id].[hash:16].js',
 	},
 	devServer: {
-		inline: true,
 		port: devPort,
-		contentBase: path.resolve(__dirname, 'public'),
-		hot: true,
-		publicPath: '/',
+		static: {
+			directory: path.join(__dirname, 'public'),
+		},
 		historyApiFallback: true,
-		host,
 		proxy: {
 			'/api': {
 				target: 'http://localhost',
