@@ -225,14 +225,16 @@ class ImageMapItems extends Component {
 		},
 	};
 
-	renderItems = items => (
-		<Flex flexWrap="wrap" flexDirection="column" style={{ width: '100%' }}>
-			{items.map(item => this.renderItem(item))}
-		</Flex>
-	);
+	renderItems = items => {
+		return (
+			<Flex flexWrap="wrap" flexDirection="column" style={{ width: '100%' }}>
+				{items.map(item => this.renderItem(item))}
+			</Flex>
+		);
+	};
 
-	renderItem = (item, centered) =>
-		item.type === 'drawing' ? (
+	renderItem = (item, centered) => {
+		return item.type === 'drawing' ? (
 			<div
 				key={item.name}
 				draggable
@@ -261,6 +263,7 @@ class ImageMapItems extends Component {
 				{this.state.collapse ? null : <div className="rde-editor-items-item-text">{item.name}</div>}
 			</div>
 		);
+	};
 
 	render() {
 		const { descriptors } = this.props;
@@ -268,6 +271,8 @@ class ImageMapItems extends Component {
 		const className = classnames('rde-editor-items', {
 			minimize: collapse,
 		});
+
+		const descriptorsInformation = Object.entries(descriptors).filter(([key]) => key !== 'default');
 		return (
 			<div className={className}>
 				<Flex flex="1" flexDirection="column" style={{ height: '100%' }}>
@@ -308,9 +313,9 @@ class ImageMapItems extends Component {
 										activeKey={activeKey.length ? activeKey : Object.keys(descriptors)}
 										onChange={this.handlers.onChangeActiveKey}
 									>
-										{Object.keys(descriptors).map(key => (
+										{descriptorsInformation.map(([key, values]) => (
 											<Collapse.Panel key={key} header={key} showArrow={!collapse}>
-												{this.renderItems(descriptors[key])}
+												{this.renderItems(values)}
 											</Collapse.Panel>
 										))}
 									</Collapse>

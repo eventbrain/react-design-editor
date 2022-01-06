@@ -20,6 +20,13 @@ const root = document.createElement('div');
 root.id = 'root';
 document.body.appendChild(root);
 
+//TODO: Hay un error con el paquete antd
+//se debe modificar el codigo en los node modules de la ruta
+//./node_modules/antd/es/version/index.js
+//remplazar codigo por el de acontinuación
+//import pck from '../../package.json';
+//const { version } = pck;
+//export default version;
 const render = Component => {
 	const rootElement = document.getElementById('root');
 	ReactDom.render(
