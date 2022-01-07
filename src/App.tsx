@@ -47,6 +47,7 @@ class App extends Component<any, IState> {
 					<link rel="shortcut icon" href="./favicon.ico" />
 					<link rel="stylesheet" href="https://fonts.googleapis.com/earlyaccess/notosanskr.css" />
 					<title>React Design Editor</title>
+				</Helmet>
 				<div className="rde-title">
 					<Title onChangeEditor={this.handleChangeEditor} currentEditor={activeEditor} />
 				</div>
