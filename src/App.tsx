@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Helmet } from 'react-helmet';
 import Title from './components/layout/Title';
 import FlowContainer from './containers/FlowContainer';
-import { FiberEditor, FlowEditor, HexGridEditor, ImageMapEditor, WorkflowEditor } from './editors';
+import { FiberEditor, HexGridEditor, ImageMapEditor } from './editors';
 
-type EditorType = 'imagemap' | 'workflow' | 'flow' | 'hexgrid' | 'fiber';
+type EditorType = 'imagemap' | 'hexgrid' | 'fiber';
 
 interface IState {
 	activeEditor?: EditorType;
@@ -25,10 +25,6 @@ class App extends Component<any, IState> {
 		switch (activeEditor) {
 			case 'imagemap':
 				return <ImageMapEditor />;
-			case 'workflow':
-				return <WorkflowEditor />;
-			case 'flow':
-				return <FlowEditor />;
 			case 'hexgrid':
 				return <HexGridEditor />;
 			case 'fiber':
@@ -51,17 +47,6 @@ class App extends Component<any, IState> {
 					<link rel="shortcut icon" href="./favicon.ico" />
 					<link rel="stylesheet" href="https://fonts.googleapis.com/earlyaccess/notosanskr.css" />
 					<title>React Design Editor</title>
-					<script async={true} src="https://www.googletagmanager.com/gtag/js?id=UA-97485289-3" />
-					<script>
-						{`
-                        window.dataLayer = window.dataLayer || [];
-                        function gtag(){dataLayer.push(arguments);}
-                        gtag('js', new Date());
-                        gtag('config', 'UA-97485289-3');
-                        `}
-					</script>
-					<script async={true} src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" />
-				</Helmet>
 				<div className="rde-title">
 					<Title onChangeEditor={this.handleChangeEditor} currentEditor={activeEditor} />
 				</div>
