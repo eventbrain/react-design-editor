@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, Collapse, List } from 'antd';
 
@@ -8,26 +8,15 @@ import { Flex } from '../../../components/flex';
 
 const { Panel } = Collapse;
 
-class NodeProperties extends Component {
-	static propTypes = {
-		canvasRef: PropTypes.any,
-		selectedItem: PropTypes.object,
-	};
+const NodeProperties = React.memo(
+	({ canvasRef, selectedItem }) => {
+		//TODO:Mirar esto
+		const [form] = Form.useForm();
 
-	UNSAFE_componentWillReceiveProps(nextProps) {
-		if (this.props.selectedItem && nextProps.selectedItem) {
-			if (this.props.selectedItem.id !== nextProps.selectedItem.id) {
-				nextProps.form.resetFields();
-			}
-		}
-	}
-
-	render() {
-		const { canvasRef, selectedItem, form } = this.props;
 		const showArrow = false;
 		return (
 			<Scrollbar>
-				<Form layout="horizontal" colon={false}>
+				<Form form={form} layout="horizon" colon={false}>
 					<Collapse bordered={false}>
 						{selectedItem && PropertyDefinition[selectedItem.type] ? (
 							Object.keys(PropertyDefinition[selectedItem.type]).map(key => {
@@ -64,12 +53,23 @@ class NodeProperties extends Component {
 				</Form>
 			</Scrollbar>
 		);
-	}
-}
-
-export default Form.create({
-	onValuesChange: (props, changedValues, allValues) => {
-		const { onChange, selectedItem } = props;
-		onChange(selectedItem, changedValues, allValues);
 	},
-})(NodeProperties);
+	(prevProps, nextProps) => {
+		if (prevProps.selectedItem && nextProps.selectedItem) {
+			if (prevProps.selectedItem.id !== nextProps.selectedItem.id) {
+				return {
+					...nextProps,
+					reset: true,
+				};
+			}
+		}
+	},
+);
+
+NodeProperties.propTypes = {
+	canvasRef: PropTypes.any,
+	selectedItem: PropTypes.object,
+	reset: PropTypes.bool,
+};
+
+export default NodeProperties;
