@@ -4,6 +4,7 @@ import { Form, Collapse } from 'antd';
 
 import PropertyDefinition from './PropertyDefinition';
 import Scrollbar from '../../../components/common/Scrollbar';
+import { NoItemSelected } from '../../../components/exception/NoItemSelected';
 
 const { Panel } = Collapse;
 
@@ -15,27 +16,26 @@ const MapProperties = ({ canvasRef, onChange }) => {
 		onChange(fieldChangedValue, fieldChangedValue, { workarea: { ...changedValues } });
 	};
 
-	if (canvasRef) {
-		const mapPropertiesDefinition = Object.entries(PropertyDefinition.map);
-		const workarea = canvasRef?.handler?.workarea;
-		return (
-			<Scrollbar>
-				<Form form={form} layout="vertical" onValuesChange={handleChange}>
-					<Collapse bordered={false}>
-						{mapPropertiesDefinition.map(([key, value]) => {
-							const Component = value?.component;
-							return (
-								<Panel key={key} header={value.title} showArrow={showArrow}>
-									{<Component canvasRef={canvasRef} form={form} data={workarea} />}
-								</Panel>
-							);
-						})}
-					</Collapse>
-				</Form>
-			</Scrollbar>
-		);
-	}
-	return null;
+	if (!canvasRef) return <NoItemSelected />;
+
+	const mapPropertiesDefinition = Object.entries(PropertyDefinition.map);
+	const workarea = canvasRef?.handler?.workarea;
+	return (
+		<Scrollbar>
+			<Form form={form} layout="vertical" onValuesChange={handleChange}>
+				<Collapse bordered={false}>
+					{mapPropertiesDefinition.map(([key, value]) => {
+						const Component = value?.component;
+						return (
+							<Panel key={key} header={value.title} showArrow={showArrow}>
+								{<Component canvasRef={canvasRef} form={form} data={workarea} />}
+							</Panel>
+						);
+					})}
+				</Collapse>
+			</Form>
+		</Scrollbar>
+	);
 };
 
 export default MapProperties;
