@@ -90,7 +90,7 @@ class ImageMapEditor extends Component {
 
 	componentDidMount() {
 		this.showLoading(true);
-		import('./Descriptors.json').then(descriptors => {
+		import('./DescriptorsCopy.json').then(descriptors => {
 			this.setState(
 				{
 					descriptors,
@@ -268,51 +268,83 @@ class ImageMapEditor extends Component {
 				const filterValue = allValues.filters[filterKey];
 				if (filterKey === 'gamma') {
 					const rgb = [filterValue.r, filterValue.g, filterValue.b];
-					this.canvasRef.handler.imageHandler.applyFilterByType(filterKey, changedValue[filterKey].enabled, {
-						gamma: rgb,
-					});
+					this.canvasRef.handler.imageHandler.applyFilterByType(
+						filterKey,
+						changedValue[filterKey].enabled,
+						{
+							gamma: rgb,
+						},
+					);
 					return;
 				}
 				if (filterKey === 'brightness') {
-					this.canvasRef.handler.imageHandler.applyFilterByType(filterKey, changedValue[filterKey].enabled, {
-						brightness: filterValue.brightness,
-					});
+					this.canvasRef.handler.imageHandler.applyFilterByType(
+						filterKey,
+						changedValue[filterKey].enabled,
+						{
+							brightness: filterValue.brightness,
+						},
+					);
 					return;
 				}
 				if (filterKey === 'contrast') {
-					this.canvasRef.handler.imageHandler.applyFilterByType(filterKey, changedValue[filterKey].enabled, {
-						contrast: filterValue.contrast,
-					});
+					this.canvasRef.handler.imageHandler.applyFilterByType(
+						filterKey,
+						changedValue[filterKey].enabled,
+						{
+							contrast: filterValue.contrast,
+						},
+					);
 					return;
 				}
 				if (filterKey === 'saturation') {
-					this.canvasRef.handler.imageHandler.applyFilterByType(filterKey, changedValue[filterKey].enabled, {
-						saturation: filterValue.saturation,
-					});
+					this.canvasRef.handler.imageHandler.applyFilterByType(
+						filterKey,
+						changedValue[filterKey].enabled,
+						{
+							saturation: filterValue.saturation,
+						},
+					);
 					return;
 				}
 				if (filterKey === 'hue') {
-					this.canvasRef.handler.imageHandler.applyFilterByType(filterKey, changedValue[filterKey].enabled, {
-						rotation: filterValue.rotation,
-					});
+					this.canvasRef.handler.imageHandler.applyFilterByType(
+						filterKey,
+						changedValue[filterKey].enabled,
+						{
+							rotation: filterValue.rotation,
+						},
+					);
 					return;
 				}
 				if (filterKey === 'noise') {
-					this.canvasRef.handler.imageHandler.applyFilterByType(filterKey, changedValue[filterKey].enabled, {
-						noise: filterValue.noise,
-					});
+					this.canvasRef.handler.imageHandler.applyFilterByType(
+						filterKey,
+						changedValue[filterKey].enabled,
+						{
+							noise: filterValue.noise,
+						},
+					);
 					return;
 				}
 				if (filterKey === 'pixelate') {
-					this.canvasRef.handler.imageHandler.applyFilterByType(filterKey, changedValue[filterKey].enabled, {
-						blocksize: filterValue.blocksize,
-					});
+					this.canvasRef.handler.imageHandler.applyFilterByType(
+						filterKey,
+						changedValue[filterKey].enabled,
+						{
+							blocksize: filterValue.blocksize,
+						},
+					);
 					return;
 				}
 				if (filterKey === 'blur') {
-					this.canvasRef.handler.imageHandler.applyFilterByType(filterKey, changedValue[filterKey].enabled, {
-						value: filterValue.value,
-					});
+					this.canvasRef.handler.imageHandler.applyFilterByType(
+						filterKey,
+						changedValue[filterKey].enabled,
+						{
+							value: filterValue.value,
+						},
+					);
 					return;
 				}
 				this.canvasRef.handler.imageHandler.applyFilterByType(filterKey, changedValue[filterKey]);
