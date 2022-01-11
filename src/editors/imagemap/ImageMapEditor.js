@@ -255,7 +255,7 @@ class ImageMapEditor extends Component {
 				return;
 			}
 			if (changedKey === 'textAlign') {
-				this.canvasRef.handler.set(changedKey, Object.keys(changedValue)[0]);
+				this.canvasRef.handler.set(changedKey, changedValue);
 				return;
 			}
 			if (changedKey === 'trigger') {
