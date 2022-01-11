@@ -48,9 +48,12 @@ class ImageMapItems extends Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
+		const currentFiltered = this.state?.filteredDescriptors;
+		const nextFiltered = nextState?.filteredDescriptors;
+
 		if (JSON.stringify(this.state.descriptors) !== JSON.stringify(nextState.descriptors)) {
 			return true;
-		} else if (JSON.stringify(this.state.filteredDescriptors) !== JSON.stringify(nextState.filteredDescriptors)) {
+		} else if (JSON.stringify(currentFiltered) !== JSON.stringify(nextFiltered)) {
 			return true;
 		} else if (this.state.textSearch !== nextState.textSearch) {
 			return true;
@@ -112,7 +115,10 @@ class ImageMapItems extends Component {
 		},
 		onAddSVG: (option, centered) => {
 			const { canvasRef } = this.props;
-			canvasRef.handler.add({ ...option, type: 'svg', superType: 'svg', id: uuid(), name: 'New SVG' }, centered);
+			canvasRef.handler.add(
+				{ ...option, type: 'svg', superType: 'svg', id: uuid(), name: 'New SVG' },
+				centered,
+			);
 			this.handlers.onSVGModalVisible();
 		},
 		onDrawingItem: item => {
@@ -236,7 +242,7 @@ class ImageMapItems extends Component {
 	renderItem = (item, centered) => {
 		return item.type === 'drawing' ? (
 			<div
-				key={item.name}
+				key={item?.name}
 				draggable
 				onClick={e => this.handlers.onDrawingItem(item)}
 				className="rde-editor-items-item"
@@ -245,11 +251,13 @@ class ImageMapItems extends Component {
 				<span className="rde-editor-items-item-icon">
 					<Icon name={item.icon.name} prefix={item.icon.prefix} style={item.icon.style} />
 				</span>
-				{this.state.collapse ? null : <div className="rde-editor-items-item-text">{item.name}</div>}
+				{this.state.collapse ? null : (
+					<div className="rde-editor-items-item-text">{item?.name}</div>
+				)}
 			</div>
 		) : (
 			<div
-				key={item.name}
+				key={item?.name}
 				draggable
 				onClick={e => this.handlers.onAddItem(item, centered)}
 				onDragStart={e => this.events.onDragStart(e, item)}
@@ -260,14 +268,17 @@ class ImageMapItems extends Component {
 				<span className="rde-editor-items-item-icon">
 					<Icon name={item.icon.name} prefix={item.icon.prefix} style={item.icon.style} />
 				</span>
-				{this.state.collapse ? null : <div className="rde-editor-items-item-text">{item.name}</div>}
+				{this.state.collapse ? null : (
+					<div className="rde-editor-items-item-text">{item?.name}</div>
+				)}
 			</div>
 		);
 	};
 
 	render() {
 		const { descriptors } = this.props;
-		const { collapse, textSearch, filteredDescriptors, activeKey, svgModalVisible, svgOption } = this.state;
+		const { collapse, textSearch, filteredDescriptors, activeKey, svgModalVisible, svgOption } =
+			this.state;
 		const className = classnames('rde-editor-items', {
 			minimize: collapse,
 		});
