@@ -1,75 +1,48 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, Collapse, List } from 'antd';
+import { Form, Collapse } from 'antd';
 
 import PropertyDefinition from './PropertyDefinition';
 import Scrollbar from '../../../components/common/Scrollbar';
-import { Flex } from '../../../components/flex';
+import { NoItemSelected } from '../../../components/exception/NoItemSelected';
 
 const { Panel } = Collapse;
 
-const NodeProperties = React.memo(
-	({ canvasRef, selectedItem }) => {
-		//TODO:Mirar esto
-		const [form] = Form.useForm();
+const NodeProperties = ({ canvasRef, selectedItem, onChange }) => {
+	const [form] = Form.useForm();
+	const type = selectedItem?.type;
+	const nodePropertiesDefinition = PropertyDefinition[type] ?? false;
 
-		const showArrow = false;
-		return (
-			<Scrollbar>
-				<Form form={form} layout="horizon" colon={false}>
-					<Collapse bordered={false}>
-						{selectedItem && PropertyDefinition[selectedItem.type] ? (
-							Object.keys(PropertyDefinition[selectedItem.type]).map(key => {
-								return (
-									<Panel
-										key={key}
-										header={PropertyDefinition[selectedItem.type][key].title}
-										showArrow={showArrow}
-									>
-										{PropertyDefinition[selectedItem.type][key].component.render(
-											canvasRef,
-											form,
-											selectedItem,
-										)}
-									</Panel>
-								);
-							})
-						) : (
-							<Flex
-								justifyContent="center"
-								alignItems="center"
-								style={{
-									width: '100%',
-									height: '100%',
-									color: 'rgba(0, 0, 0, 0.45)',
-									fontSie: 16,
-									padding: 16,
-								}}
-							>
-								<List />
-							</Flex>
-						)}
-					</Collapse>
-				</Form>
-			</Scrollbar>
-		);
-	},
-	(prevProps, nextProps) => {
-		if (prevProps.selectedItem && nextProps.selectedItem) {
-			if (prevProps.selectedItem.id !== nextProps.selectedItem.id) {
-				return {
-					...nextProps,
-					reset: true,
-				};
-			}
-		}
-	},
-);
+	const handleFormChange = (fieldChangedValue, changedValues) => {
+		onChange(selectedItem, fieldChangedValue, changedValues);
+	};
+
+	if (!type && !nodePropertiesDefinition) return <NoItemSelected />;
+
+	const nodePropertiesList = Object.entries(nodePropertiesDefinition);
+	const showArrow = false;
+
+	return (
+		<Scrollbar>
+			<Form form={form} layout="horizon" colon={false} onValuesChange={handleFormChange}>
+				<Collapse bordered={false}>
+					{nodePropertiesList.map(([key, value]) => {
+						const Component = value?.component;
+						return (
+							<Panel key={key} header={value.title} showArrow={showArrow}>
+								{<Component canvasRef={canvasRef} form={form} data={selectedItem} />}
+							</Panel>
+						);
+					})}
+				</Collapse>
+			</Form>
+		</Scrollbar>
+	);
+};
 
 NodeProperties.propTypes = {
 	canvasRef: PropTypes.any,
 	selectedItem: PropTypes.object,
-	reset: PropTypes.bool,
+	onChange: PropTypes.func,
 };
 
 export default NodeProperties;
